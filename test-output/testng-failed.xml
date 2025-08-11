@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Suite]" guice-stage="DEVELOPMENT">
+  <parameter name="BROWSER" value="chrome"/>
+  <listeners>
+    <listener class-name="com.orange.hrm.framework.listeners.TestListener"/>
+  </listeners>
+  <test thread-count="5" name="Test(failed)">
+    <classes>
+      <class name="com.orange.hrm.application.tests.ApplicationTest">
+        <methods>
+          <include name="verifyAdminpageSearchFunctionality"/>
+          <include name="loginUsingExcelFile" invocation-numbers="3"/>
+          <include name="setupReport"/>
+          <include name="initializePageClasses"/>
+          <include name="setupBrowser"/>
+          <include name="verifyAdminpageResetFunctionality"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- com.orange.hrm.application.tests.ApplicationTest -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->
