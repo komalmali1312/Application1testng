@@ -47,6 +47,20 @@
         <artifactId>extentreports</artifactId>
         <version>5.0.9</version> <!-- Replace with the latest version -->
     </dependency>
+    
+   <!-- Cucumber dependencies -->
+   <!-- cucumber-java -->
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-java</artifactId>
+    <version>7.27.0</version>
+</dependency>
+<!--cucumber-testng -->
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-testng</artifactId>
+    <version>7.27.0</version>
+</dependency>
   </dependencies>
   <build>
   <pluginManagement>

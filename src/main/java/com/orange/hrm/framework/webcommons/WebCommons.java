@@ -22,7 +22,7 @@ import org.testng.Assert;
 
 import com.orange.hrm.framework.base.BasePage;
 import com.orange.hrm.framework.constants.Constant;
-import com.orange.hrm.framework.reports.Reports;
+
 import com.orange.hrm.framework.utilities.PropUtil;
 
 public class WebCommons {
@@ -224,40 +224,19 @@ public Properties properties=PropUtil.readData("Config.properties");
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constant.TIMEOUT));
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
-//common method to print messages in reports
-	public void log(String status,String message)
-	{
-		status=status.toUpperCase();
-		switch(status) {
-			case "PASS":
-				Reports.logger.pass("PASS: " + message);
-				break;
-			case "FAIL":
-				Reports.logger.fail("FAIL: " + message);
-				Assert.fail(message);
-				break;
-			case "INFO":
-				Reports.logger.info("INFO: " + message);
-				break;
-			case "WARNING":
-				Reports.logger.warning("INFO: " + message);
-				break;
-			default:
-				System.out.println("UNKNOWN STATUS: " + message);
-		}
-	}
+
 //Common method to check element disappear
 	public void waitForElementToDisappear(WebElement element) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constant.TIMEOUT));
 		wait.until(ExpectedConditions.invisibilityOf(element));
-		log("INFO", "Element is no longer visible: " + element);
+		
 	}
 //check element is enabled
 	public void isElementEnabled(WebElement element) {
 		if (element.isEnabled()) {
-			log("INFO", "Element is enabled: " + element);
+			
 		} else {
-			log("FAIL", "Element is not enabled: " + element);
+			
 			Assert.fail("Element is not enabled: " + element);
 		}
 		
@@ -271,11 +250,11 @@ public Properties properties=PropUtil.readData("Config.properties");
 	public void clickAndVerify(WebElement element) {
 		clickElement(element);
 		waitForElementToBeVisible(element); // Ensure the element is still visible after clicking
-		log("INFO", "Clicked on element: " + element);
+		
 		try {
 			Assert.assertTrue(element.isDisplayed(), "Element is not displayed after clicking: " + element);
 		} catch (WebDriverException e) {
-			log("FAIL", "Element is not displayed after clicking: " + element);
+			
 			Assert.fail("Element is not displayed after clicking: " + element);
 		}
 	}

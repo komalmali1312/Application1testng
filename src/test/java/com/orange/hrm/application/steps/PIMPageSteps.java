@@ -44,7 +44,7 @@ public class PIMPageSteps extends PIMPageElements {
 		clickElement(ResetPIM);
 		waitForElementToBeVisible(employeenametxtbx);
 		Assert.assertTrue(employeenametxtbx.getText().isEmpty(), "Employee name textbox is not reset");
-		log("INFO", "Reset functionality is working as expected");
+		
 	}
 
 }

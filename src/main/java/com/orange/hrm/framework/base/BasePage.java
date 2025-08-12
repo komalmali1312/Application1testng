@@ -1,5 +1,9 @@
 package com.orange.hrm.framework.base;
 
+import java.util.Properties;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -9,17 +13,21 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
-import com.orange.hrm.framework.reports.Reports;
 
-public class BasePage extends Reports{
+import com.orange.hrm.framework.utilities.PropUtil;
+
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+
+public class BasePage {
 	private static WebDriver driver;
 //This class have all basic methods and Configurations to begin the execution.(like browser setup, tear down,driver initialization, etc.)
-
+Properties prope= PropUtil.readData("config.properties");
 //Common method to get the WebDriver instance and launch the browser.	
-	@BeforeMethod(alwaysRun = true)
-	@Parameters({ "BROWSER" })
-	public void setupBrowser(String BROWSER) {
-
+	@Before
+	public void setupBrowser() {
+String BROWSER = prope.getProperty("Browser");
 		switch (BROWSER.toLowerCase()) {
 		case "chrome":
 			driver = new ChromeDriver(); // Assuming ChromeDriver is imported and set up
@@ -42,7 +50,7 @@ public class BasePage extends Reports{
 	}
 
 //Common method to teardown the WebDriver instance after test execution.
-	@AfterMethod(alwaysRun = true)
+	@After(order = 0)
 	public void tearDown() {
 		if (driver != null) {
 			driver.quit();
@@ -51,7 +59,22 @@ public class BasePage extends Reports{
 			System.out.println("No browser instance to close");
 		}
 	}
+//common method to take screenshot after each test execution and attach it to the report.
+	@After(order = 1)
+	public void failedTestListener(Scenario scenario) {
+		if (scenario.isFailed()) {
+			byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+			scenario.attach(screenshot, "image/png", scenario.getName());
+	}
+	}
 	
+
+	//Common method to verify the page title.
+	public void verifyPageTitle(String expectedTitle) {
+		String actualTitle = driver.getTitle();
+		Assert.assertEquals(actualTitle, expectedTitle, "Page title does not match expected value");
+		System.out.println("Page title verified successfully: " + actualTitle);
+	}	
 //Common methods to get the WebDriver instance and return it.
 	public static WebDriver getDriver() {
 		return driver;
